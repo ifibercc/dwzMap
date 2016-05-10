@@ -3,10 +3,13 @@ var options = {
     width: 1000,
     height: 700,
     initCityName: '北京',
-    initLng: 116.404,
-    initLat: 39.915,
+    initLng: 117.278097,
+    initLat: 39.077101,
     initZoom: 11
 };
-
 var myMap = new dwzMap(options);
-$.get('test/test.json');
+
+ // myMap.redrawMark({lng:117.278097, lat:39.077101});
+$.get('test/pointSet.json', function(data){
+    myMap.redrawMarkSet(data, true);
+});
