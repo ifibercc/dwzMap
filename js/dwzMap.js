@@ -1,14 +1,12 @@
-var dwzMap = function(options) {
+var dwzMap = function (options) {
     var me = this;
     options = $.extend({
         id: null,
         width: null,
         height: 450,
-        initCityName: null,
         initLng: null,
         initLat: null,
-        initZoom: 15,
-        citys: null
+        initZoom: 15
     }, options);
 
     me.options = options;
@@ -27,8 +25,6 @@ var dwzMap = function(options) {
         console.warn("Baidu Map initialization may be has failed!!");
         return;
     }
-
-
     if (options.width) {
         me.$el.width(options.width);
     }
@@ -36,7 +32,7 @@ var dwzMap = function(options) {
         me.$el.height(options.height);
     }
 
-    //初始化地图
+    // init bmap
     var map = new BMap.Map(me.el);
     me.currentZoom = me.options.initZoom;
     map.addControl(new BMap.MapTypeControl());
@@ -55,7 +51,7 @@ var dwzMap = function(options) {
         // });
     }
 };
-// 重新指定一个中心点并缩放至指定大小
+// define a new center point and zoom a value
 dwzMap.prototype.centerAndZoom = function(point, zoom) {
     var me = this;
     var setPoint = null,
@@ -72,14 +68,14 @@ dwzMap.prototype.centerAndZoom = function(point, zoom) {
     return setPoint;
 };
 
-// 将地图缩放至指定大小 1 - 19
+// zoom map to a value ranged 1 - 19
 dwzMap.prototype.setZoom = function(zoom) {
     var me = this;
     me.currentMap.setZoom(zoom);
 };
 
-// 绘制一个marker
-dwzMap.prototype.redrawMark = function(point, clear, tip) {
+// draw a marker
+dwzMap.prototype.redrawMark = function(point, clear, tip, _click, _dragend) {
     var me = this;
     if (clear !== false) {
         me.currentMap.clearOverlays();
@@ -88,24 +84,18 @@ dwzMap.prototype.redrawMark = function(point, clear, tip) {
     me.currentMap.addOverlay(marker);
     marker.setTop(true);
     marker.enableDragging();
-    if (tip === true) {
-        marker.addEventListener("click", function(e) {
-            me.showMarkerTip(marker, e.point);
-        });
-        marker.addEventListener("dblclick", function(e) {
-            me.showMarkerTip(marker, e.point);
-            me.currentMap.centerAndZoom(e.point);
+    if (_click) {
+        marker.addEventListener('click', function () {
+            alert(1);
         });
     }
-    marker.addEventListener("dragend", function (e) {
-        // todo:作为参数传递
-        $('#longitude').val(e.point.lng);
-        $('#latitude').val(e.point.lat);
-    });
+    if (_dragend) {
+        marker.addEventListener('dragend', _dragend);
+    }
     return marker;
 };
 
-// 显示marker的toolTip todo需要定制模板
+// show marker's tip which need a diy module
 dwzMap.prototype.showMarkerTip = function(marker, point) {
     var me = this;
     if (!marker) {
@@ -116,20 +106,18 @@ dwzMap.prototype.showMarkerTip = function(marker, point) {
         marker.openInfoWindow(infow);
     }
 };
-// 绘制一个marker集合
-dwzMap.prototype.redrawMarkSet = function(pointSet, clear, tip) {
+
+// draw dozens of markers
+dwzMap.prototype.redrawMarkSet = function(pointSet, clear, tip, _click) {
     var me = this;
     if (clear !== false) {
         me.currentMap.clearOverlays();
     }
     var i;
     for(i = 0;i < pointSet.length;i++) {
-        addMarker(pointSet[i]);
-    }
-    function addMarker(point) {
-        var marker = new BMap.Marker(point);
-        me.currentMap.addOverlay(marker);
-        marker.setTop(true);
+        me.redrawMark(pointSet[i], false, null, null, _click);
     }
 };
+
+
 dwzMap.prototype.constructor = dwzMap;
