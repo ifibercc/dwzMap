@@ -3,14 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>dwzMap</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
 </head>
 <body>
-    <div id="allmap" style="width: 450px;height: 450px;"></div>
-    <div class="formData">
-        <input type="text" id="longitude">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#">创建地图   </a></li>
+                    <li               ><a href="components/showMarker/showMarker.html">显示标注</a></li>
+                    <li               ><a href="#">编辑点线面 </a></li>
+                </ul>
+            </div>
+        </div>
         <br>
-        <input type="text" id="latitude">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                <div id="allmap" style="width: 80%; height: 450px; border: 1px solid;"></div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Usage</div>
+                    <div class="panel-body">
+                        <ol>
+                            <li>
+                                引入百度地图JS
+                                <br>
+                                <code>
+                                    &lt;script src="http://api.map.baidu.com/api?v=2.0&ak=你的ak"&gt;&lt;/script&gt;
+                                </code>
+                            </li>
+                            <li>
+                                引入鼠标绘制工具，分为JS和CSS
+                                <br>
+                                <code>
+                                    &lt;script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"&gt;&lt;/script&gt;
+                                    <br>
+                                    &lt;link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" /&gt;
+                                </code>
+                            </li>
+                            <li>
+                                引入封装的dwzMap.js
+                                <br>
+                                <code>
+                                    &lt;script src="js/dwzMap.js"&gt;&lt;/script&gt;
+                                </code>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">创建地图Object</div>
+                    <div class="panel-body">
+                        <ol>
+                            <li>
+                                定义一个地图容器，需指定其id和长宽
+                                <br>
+                                <code>
+                                    &lt;div id="allmap" style="width: 80%; height: 450px"&gt;&lt;/div&gt;
+                                </code>
+                            </li>
+                            <li>
+                                声明配置对象
+                                <br>
+                                <code>
+                                    var options = { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;id: 'allmap', <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;initLng: 117.278097, <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;initLat: 39.077101, <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;initZoom: 11 <br>
+                                    };
+                                </code>
+                                <br>
+                                需指定地图容器的id，并设置初始经纬度以及初始缩放比，默认为15
+                            </li>
+                            <li>
+                                实例化地图对象
+                                <br>
+                                <code>
+                                    var myMap = new dwzMap();
+                                </code>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://api.map.baidu.com/api?v=2.0&ak=OpVm9UjnXj1ACmgEQLH7QSFh"></script>
     <!--加载鼠标绘制工具-->
     <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>

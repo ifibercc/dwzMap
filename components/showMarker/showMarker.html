@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>dwzMap</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li><a href="../../index.html">创建地图</a></li>
+                    <li class="active"><a href="#">显示标注</a></li>
+                    <li><a href="#">编辑点线面 </a></li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                <div id="allmap" style="width: 80%; height: 450px; border: 1px solid;"></div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">显示标注或多个标注</div>
+                    <div class="panel-body">
+                        使用appendOverlays函数：
+                        <br>
+                        <code>
+                            var data = [[117.278097,39.077101],[117.288097,39.087101]];
+                            <br>
+                            myMap.appendOverlays(data, 'marker');
+                        </code>
+                        <br>
+                        data为数组对象，数组中的元素也为数组，则显示点集，需将第二个参数指定为'marker'
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">改变marker的样式</div>
+                    <div class="panel-body">
+                        <code>
+                            var options = {
+                                icon: ''
+                            };
+                            myMap.appendOverlays(data, 'marker', options);
+                        </code>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">显示标注或多个标注</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=OpVm9UjnXj1ACmgEQLH7QSFh"></script>
+    <!--加载鼠标绘制工具-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+    <script src="../../js/dwzMap.js"></script>
+    <script src="showMarker.js"></script>
+</body>
+</html>

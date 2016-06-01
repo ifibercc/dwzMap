@@ -34,6 +34,7 @@ var dwzMap = function (options) {
             me.options.initLat
         ), me.options.initZoom);
     }
+    $('.BMap_cpyCtrl').remove();
 };
 
 // define a new center point and zoom a value
@@ -61,18 +62,25 @@ dwzMap.prototype.setZoom = function(zoom) {
 };
 
 // draw a marker
-dwzMap.prototype.redrawMark = function(point, clear, tip, _click, _dragend) {
+dwzMap.prototype.redrawMark = function(point, options) {
     var me = this;
-    clear !== false && me.currentMap.clearOverlays();
-    var marker = new BMap.Marker(new BMap.Point(point[0], point[1]));
+    options.clear !== false && me.currentMap.clearOverlays();
+    var bPoint = new BMap.Point(point[0], point[1]);
+    var marker;
+    if (options.icon) {
+        var bIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
+        marker = new BMap.Marker(bPoint, {icon: bIcon});
+    } else {
+        marker = new BMap.Marker(bPoint);
+    }
     me.currentMap.addOverlay(marker);
     marker.setTop(true);
-    if (_click) {
-        marker.addEventListener('click', _click);
+    if (options._click) {
+        marker.addEventListener('click', options._click);
     }
-    if (_dragend) {
+    if (options._dragend) {
         marker.enableDragging();
-        marker.addEventListener('dragend', _dragend);
+        marker.addEventListener('dragend', options._dragend);
     }
     return marker;
 };
@@ -129,5 +137,29 @@ dwzMap.prototype.openDrawManager = function(_overlaycomplete, circleStyle, polyl
     });
      //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', _overlaycomplete);
+};
+
+dwzMap.prototype.appendOverlays = function (data, type, options) {
+    var me = this;
+    if (!data) {
+        console.warn('覆盖物的data未设定！！');
+        return;
+    }
+    if (!type) {
+        console.warn('覆盖物的类型未指定');
+        return;
+    }
+    switch (type) {
+        case 'marker': 
+            if (typeof data[0] === 'number') {
+                me.redrawMark(data, options);
+            } else {
+                me.redrawMarkSet(data, options);
+            }
+        break;
+        case 'polyline': break;
+        case 'polygon': break;
+        default: return;
+    }
 };
 dwzMap.prototype.constructor = dwzMap;
