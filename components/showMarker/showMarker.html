@@ -130,33 +130,25 @@
                     <div class="panel-body">
                         <ol>
                             <li>
-                                声明事件函数
+                                定义HTML模板函数
                                 <br>
                                 <code>
-                                    function _markerDragend(e) { <br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.info(e); <br>
+                                    function getInfoWindowHtml(point) { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;return "&lt;p style='font-size:20px;color:red'&gt;拖动图标来改变经纬度&lt;/p&gt;&lt;p style='font-size:14px;'&gt;经度坐标：&lt;span style='font-size:14px;color:#cc5522;'&gt;" + <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point[0] + "&lt;/span&gt;&lt;/p&gt;&lt;p style='font-size:14px;'&gt;纬度坐标：&lt;span style='font-size:14px;color:#cc5522;'&gt;" + <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point[1] + "&lt;/span&gt;&lt;/p&gt;&lt;p style='text-align:center;'&gt;&lt;/p&gt;"; <br>
                                     }
                                 </code>
                             </li>
                             <li>
-                                声明配置参数对象
+                                在click事件中显示infoTip
                                 <br>
                                 <code>
-                                    var markerOptions = { <br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;icon: true, <br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;_dragend: _markerDragend <br>
-                                    };
+                                    function _markerClick(e) { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;myMap.showMarkerTip([e.target.getPosition().lng, e.target.getPosition().lat], getInfoWindowHtml); <br>
+                                    }
                                 </code>
-                            </li>
-                            <li>
-                                添加marker
-                                <br>
-                                <code>
-                                    myMap.appendOverlays([117.278097,39.077101], 'marker', markerOptions);
-                                </code>
-                            </li>
-                            <li>
-                                若添加了dragend事件，则marker默认可以拖拽
+                                第一个参数为点的经纬度，第二个参数为模板函数
                             </li>
                         </ol>
                     </div>
