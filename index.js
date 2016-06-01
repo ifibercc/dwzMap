@@ -10,6 +10,7 @@ var myMap = new dwzMap(options);
 
 myMap.redrawMark({lng:117.278097, lat:39.077101}, null, null, myClick, myDrag);
 
+
 function myDrag(e) {
     $('#longitude').val(e.point.lng);
     $('#latitude').val(e.point.lat);

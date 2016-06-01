@@ -43,12 +43,6 @@ var dwzMap = function (options) {
             lng: me.options.initLng,
             lat: me.options.initLat
         }, me.options.initZoom);
-    } else if (options.initCityName) {
-        // me.showAddress(options.initCityName, function (point) {
-        //     if (point) {
-        //         me.centerAndZoom(point, me.currentZoom);
-        //     }
-        // });
     }
 };
 // define a new center point and zoom a value
@@ -84,14 +78,15 @@ dwzMap.prototype.redrawMark = function(point, clear, tip, _click, _dragend) {
     me.currentMap.addOverlay(marker);
     marker.setTop(true);
     marker.enableDragging();
-    if (_click) {
-        marker.addEventListener('click', function () {
-            alert(1);
-        });
-    }
-    if (_dragend) {
-        marker.addEventListener('dragend', _dragend);
-    }
+    marker.addEventListener('click', function() {
+        alert(1);
+    });
+
+
+    // if (_dragend) {
+    //     marker.enableDragging();
+    //     marker.addEventListener('dragend', _dragend);
+    // }
     return marker;
 };
 
