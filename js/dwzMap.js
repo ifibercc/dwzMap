@@ -1,17 +1,15 @@
+// create a map module
 var dwzMap = function (options) {
     var me = this;
-    options = $.extend({
-        id: null,
-        width: null,
-        height: 450,
-        initLng: null,
-        initLat: null,
-        initZoom: 15
-    }, options);
+    options = {
+        id: options.id || 'allmap',
+        initLng: options.initLng || null,
+        initLat: options.initLat || null,
+        initZoom: options.initZoom || 15
+    };
 
     me.options = options;
     me.el = window.document.getElementById(options.id);
-    me.$el = $(me.el);
 
     if (!options.id) {
         console.warn("The map id not set!!");
@@ -25,26 +23,19 @@ var dwzMap = function (options) {
         console.warn("Baidu Map initialization may be has failed!!");
         return;
     }
-    if (options.width) {
-        me.$el.width(options.width);
-    }
-    if (options.height) {
-        me.$el.height(options.height);
-    }
-
     // init bmap
     var map = new BMap.Map(me.el);
     me.currentZoom = me.options.initZoom;
-    map.addControl(new BMap.MapTypeControl());
     map.enableScrollWheelZoom(true);
     me.currentMap = map;
     if (options.initLng && options.initLat) {
-        me.centerAndZoom({
-            lng: me.options.initLng,
-            lat: me.options.initLat
-        }, me.options.initZoom);
+        me.centerAndZoom(new BMap.Point(
+            me.options.initLng,
+            me.options.initLat
+        ), me.options.initZoom);
     }
 };
+
 // define a new center point and zoom a value
 dwzMap.prototype.centerAndZoom = function(point, zoom) {
     var me = this;
@@ -52,8 +43,8 @@ dwzMap.prototype.centerAndZoom = function(point, zoom) {
         szoom = zoom || me.currentZoom;
     if (point instanceof BMap.Point) {
         setPoint = point;
-    } else if (point.lng && point.lat) {
-        setPoint = new BMap.Point(point.lng, point.lat);
+    } else if (point[0] && point[1]) {
+        setPoint = new BMap.Point(point[0], point[1]);
     }
     me.currentMap.centerAndZoom(setPoint, szoom);
     me.currentMap.panTo(point);
@@ -66,32 +57,29 @@ dwzMap.prototype.centerAndZoom = function(point, zoom) {
 dwzMap.prototype.setZoom = function(zoom) {
     var me = this;
     me.currentMap.setZoom(zoom);
+    return true;
 };
 
 // draw a marker
 dwzMap.prototype.redrawMark = function(point, clear, tip, _click, _dragend) {
     var me = this;
-    if (clear !== false) {
-        me.currentMap.clearOverlays();
-    }
-    var marker = new BMap.Marker(point);
+    clear !== false && me.currentMap.clearOverlays();
+    var marker = new BMap.Marker(new BMap.Point(point[0], point[1]));
     me.currentMap.addOverlay(marker);
     marker.setTop(true);
-    marker.enableDragging();
-    marker.addEventListener('click', function() {
-        alert(1);
-    });
-
-
-    // if (_dragend) {
-    //     marker.enableDragging();
-    //     marker.addEventListener('dragend', _dragend);
-    // }
+    if (_click) {
+        marker.addEventListener('click', _click);
+    }
+    if (_dragend) {
+        marker.enableDragging();
+        marker.addEventListener('dragend', _dragend);
+    }
     return marker;
 };
 
 // show marker's tip which need a diy module
 dwzMap.prototype.showMarkerTip = function(marker, point) {
+    // todo
     var me = this;
     if (!marker) {
         marker = new BMap.Marker(point);
@@ -110,9 +98,36 @@ dwzMap.prototype.redrawMarkSet = function(pointSet, clear, tip, _click) {
     }
     var i;
     for(i = 0;i < pointSet.length;i++) {
-        me.redrawMark(pointSet[i], false, null, null, _click);
+        me.redrawMark(pointSet[i], false, null, _click);
     }
 };
 
+// open point line face edit
+dwzMap.prototype.openDrawManager = function(_overlaycomplete, circleStyle, polylineStyle, polygonStyle, rectangleStyle) {
+    var me = this;
 
+    var defaultStyle = {
+        strokeColor:"red",    //边线颜色
+        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果
+        strokeWeight: 3,       //边线的宽度，以像素为单位
+        strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1
+        strokeStyle: 'solid' //边线的样式，solid或dashed
+    }
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(me.currentMap, {
+        isOpen: false, //是否开启绘制模式
+        enableDrawingTool: true, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+        },
+        circleOptions: circleStyle || defaultStyle, //圆的样式
+        polylineOptions: polylineStyle || defaultStyle, //线的样式
+        polygonOptions: polygonStyle || defaultStyle, //多边形的样式
+        rectangleOptions: rectangleStyle || defaultStyle //矩形的样式
+    });
+     //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', _overlaycomplete);
+};
 dwzMap.prototype.constructor = dwzMap;
