@@ -85,19 +85,6 @@ dwzMap.prototype.redrawMark = function(point, options) {
     return marker;
 };
 
-// show marker's tip which need a diy module
-dwzMap.prototype.showMarkerTip = function(marker, point) {
-    // todo
-    var me = this;
-    if (!marker) {
-        marker = new BMap.Marker(point);
-    }
-    if (me.options.markRender) {
-        var infow = new BMap.InfoWindow(me.options.markRender(point));
-        marker.openInfoWindow(infow);
-    }
-};
-
 // draw dozens of markers
 dwzMap.prototype.redrawMarkSet = function(pointSet, clear, tip, _click) {
     var me = this;
@@ -108,6 +95,16 @@ dwzMap.prototype.redrawMarkSet = function(pointSet, clear, tip, _click) {
     for(i = 0;i < pointSet.length;i++) {
         me.redrawMark(pointSet[i], false, null, _click);
     }
+};
+
+
+// show marker's tip which need a diy module
+dwzMap.prototype.showMarkerTip = function(point, template) {
+    var me = this;
+    var bPoint = new BMap.Point(point[0], point[1]);
+    marker = new BMap.Marker(bPoint);
+    var infow = new BMap.InfoWindow(template(point));
+    me.currentMap.openInfoWindow(infow, bPoint);
 };
 
 // open point line face edit

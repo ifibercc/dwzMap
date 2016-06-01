@@ -11,7 +11,9 @@
             <div class="col-md-12">
                 <ul class="nav nav-tabs">
                     <li><a href="../../index.html">创建地图</a></li>
-                    <li class="active"><a href="#">显示标注</a></li>
+                    <li class="active"><a href="#">添加标注</a></li>
+                    <li><a href="#">添加线</a></li>
+                    <li><a href="#">添加多边形</a></li>
                     <li><a href="#">编辑点线面 </a></li>
                 </ul>
             </div>
@@ -25,7 +27,7 @@
         <br>
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">显示标注或多个标注</div>
                     <div class="panel-body">
                         使用appendOverlays函数：
@@ -40,8 +42,8 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">改变marker的样式</div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">改变marker的样式 todo</div>
                     <div class="panel-body">
                         <code>
                             var options = {
@@ -52,10 +54,111 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">显示标注或多个标注</div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">click事件</div>
                     <div class="panel-body">
+                        <ol>
+                            <li>
+                                声明事件函数
+                                <br>
+                                <code>
+                                    function _markerClick(e) { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.info(e); <br>
+                                    }
+                                </code>
+                            </li>
+                            <li>
+                                声明配置参数对象
+                                <br>
+                                <code>
+                                    var markerOptions = { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;icon: true, <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;_click: _markerClick <br>
+                                    };
+                                </code>
+                            </li>
+                            <li>
+                                添加marker
+                                <br>
+                                <code>
+                                    myMap.appendOverlays([117.278097,39.077101], 'marker', markerOptions);
+                                </code>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
 
+                <div class="panel panel-primary">
+                    <div class="panel-heading">dragend事件</div>
+                    <div class="panel-body">
+                        <ol>
+                            <li>
+                                声明事件函数
+                                <br>
+                                <code>
+                                    function _markerDragend(e) { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.info(e); <br>
+                                    }
+                                </code>
+                            </li>
+                            <li>
+                                声明配置参数对象
+                                <br>
+                                <code>
+                                    var markerOptions = { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;icon: true, <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;_dragend: _markerDragend <br>
+                                    };
+                                </code>
+                            </li>
+                            <li>
+                                添加marker
+                                <br>
+                                <code>
+                                    myMap.appendOverlays([117.278097,39.077101], 'marker', markerOptions);
+                                </code>
+                            </li>
+                            <li>
+                                若添加了dragend事件，则marker默认可以拖拽
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">为marker添加tip</div>
+                    <div class="panel-body">
+                        <ol>
+                            <li>
+                                声明事件函数
+                                <br>
+                                <code>
+                                    function _markerDragend(e) { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.info(e); <br>
+                                    }
+                                </code>
+                            </li>
+                            <li>
+                                声明配置参数对象
+                                <br>
+                                <code>
+                                    var markerOptions = { <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;icon: true, <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;_dragend: _markerDragend <br>
+                                    };
+                                </code>
+                            </li>
+                            <li>
+                                添加marker
+                                <br>
+                                <code>
+                                    myMap.appendOverlays([117.278097,39.077101], 'marker', markerOptions);
+                                </code>
+                            </li>
+                            <li>
+                                若添加了dragend事件，则marker默认可以拖拽
+                            </li>
+                        </ol>
                     </div>
                 </div>
 
